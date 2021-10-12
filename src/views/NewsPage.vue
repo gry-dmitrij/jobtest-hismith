@@ -17,12 +17,13 @@
             <p class="text--secondary">{{ news.preview }}</p>
           </v-col>
         </v-row>
-        <v-row>
-          <v-col>
+        <v-row justify="center">
+          <v-col cols="6">
             <v-carousel v-model="slide">
               <v-carousel-item v-for="(item, idx) in news.images"
                                :key="idx"
-                               :src="item.url[0]">
+                               :src="item.url[0]"
+                               @click="showDialog(item.url[0])">
               </v-carousel-item>
             </v-carousel>
           </v-col>
@@ -34,6 +35,11 @@
         </v-row>
       </v-col>
     </v-row>
+    <v-dialog v-model="isPopupVisible"
+    >
+      <v-img :src="photoUrl"
+             @click="isPopupVisible = false"></v-img>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -46,6 +52,8 @@ export default {
     return {
       news: {},
       slide: 0,
+      isPopupVisible: false,
+      photoUrl: '',
     };
   },
   mounted() {
@@ -56,6 +64,12 @@ export default {
     ...mapGetters([
       'getNewById',
     ]),
+  },
+  methods: {
+    showDialog(url) {
+      this.photoUrl = url;
+      this.isPopupVisible = true;
+    },
   },
 };
 </script>
