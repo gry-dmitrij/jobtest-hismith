@@ -13,6 +13,7 @@ const parser = new Parser({
       ['rbc_news:anons', 'preview'],
       ['rbc_news:date', 'date'],
       ['rbc_news:time', 'time'],
+      ['rbc_news:full-text', 'fullText'],
     ],
   },
 });
@@ -26,6 +27,7 @@ export default new Vuex.Store({
   getters: {
     getNews: (state) => state.news,
     getPage: (state) => state.page,
+    getNewById: (state) => (id) => state.news.find((item) => item.guid === id),
   },
   mutations: {
     setNews(state, payload) {
