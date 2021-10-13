@@ -37,6 +37,7 @@ export default new Vuex.Store({
   state: {
     news: [],
     page: 1,
+    loading: false,
   },
   getters: {
     getNews: (state) => state.news,
@@ -47,6 +48,7 @@ export default new Vuex.Store({
      * @returns {function(*): *}
      */
     getNewById: (state) => (id) => state.news.find((item) => item.guid === id),
+    getLoading: (state) => state.loading,
   },
   mutations: {
     setNews(state, payload) {
@@ -56,13 +58,23 @@ export default new Vuex.Store({
     setPage(state, number) {
       state.page = number;
     },
+    setLoading(state, value) {
+      state.loading = !!value;
+    },
   },
   actions: {
-    async fetchNews({ commit }) {
-      const feed = await parser.parseURL(
-        `${PROXY}http://static.feed.rbc.ru/rbc/logical/footer/news.rss`,
-      );
-      commit('setNews', feed.items);
+    async fetchNews({ commit, state }) {
+      if (state.news.length === 0) {
+        commit('setLoading', true);
+      }
+      try {
+        const feed = await parser.parseURL(
+          `${PROXY}http://static.feed.rbc.ru/rbc/logical/footer/news.rss`,
+        );
+        commit('setNews', feed.items);
+      } finally {
+        commit('setLoading', false);
+      }
     },
   },
   modules: {

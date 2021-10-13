@@ -41,6 +41,11 @@
               </v-col>
             </v-row>
           </v-container>
+          <v-progress-circular
+            v-if="getLoading"
+            indeterminate
+            color="primary"
+          ></v-progress-circular>
           <new-item v-for="(item, idx) in news"
                     :key="idx"
                     :header="item.title"
@@ -95,7 +100,11 @@ export default {
     ...mapGetters([
       'getNews',
       'getPage',
+      'getLoading',
     ]),
+    // ...mapGetters({
+    //   getLoading: 'getLoading',
+    // }),
     /**
      * Отфильтрованный массив новостей
      * @returns {[]}
