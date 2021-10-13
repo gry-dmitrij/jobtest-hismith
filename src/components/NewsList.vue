@@ -7,7 +7,7 @@
           <h2>Список новостей</h2>
           <v-container>
             <v-row>
-              <v-col cols="2">
+              <v-col cols="3">
                 <v-menu
                   v-model="menuPicker"
                   :close-on-content-click="false"
@@ -25,6 +25,7 @@
                       v-bind="attrs"
                       v-on="on"
                     ></v-text-field>
+                    <v-btn @click="clearFilter">Очистить фильтр</v-btn>
                   </template>
                   <v-date-picker
                     v-model="dates"
@@ -83,6 +84,10 @@ export default {
     ...mapMutations([
       'setPage',
     ]),
+    clearFilter() {
+      this.searchWords = '';
+      this.dates = [];
+    },
   },
   computed: {
     ...mapGetters([

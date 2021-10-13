@@ -43,7 +43,6 @@ export default new Vuex.Store({
   actions: {
     async fetchNews({ commit }) {
       const feed = await parser.parseURL(`${PROXY}http://static.feed.rbc.ru/rbc/logical/footer/news.rss`);
-      console.log(feed);
       commit('setNews', feed.items);
     },
   },
