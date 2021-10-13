@@ -7,7 +7,9 @@
           <h2>Список новостей</h2>
           <v-container>
             <v-row>
-              <v-col cols="3">
+              <v-col cols="6"
+                     lg="3"
+                     xl="2">
                 <v-menu
                   v-model="menuPicker"
                   :close-on-content-click="false"

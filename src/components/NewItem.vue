@@ -1,6 +1,6 @@
 <template>
   <v-container class="new-item pb-0">
-    <v-row >
+    <v-row>
       <v-col class="pb-0">
         <router-link :to="link">
           <h3>{{ header }}</h3>
@@ -8,7 +8,7 @@
       </v-col>
       <v-col class="d-flex justify-end align-end pb-0"
              v-if="date"
-      cols="2">
+             cols="2">
         <span class="subtitle-2 text--secondary">{{ date }}</span>
       </v-col>
     </v-row>

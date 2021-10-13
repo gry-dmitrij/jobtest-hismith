@@ -17,7 +17,8 @@
             <p class="text--secondary">{{ news.preview }}</p>
           </v-col>
         </v-row>
-        <v-row justify="center">
+        <v-row justify="center"
+               v-show="showCarousel">
           <v-col cols="6">
             <v-carousel v-model="slide">
               <v-carousel-item v-for="(item, idx) in news.images"
@@ -67,6 +68,9 @@ export default {
     ...mapGetters([
       'getNewById',
     ]),
+    showCarousel() {
+      return this.news.images?.length > 0;
+    },
   },
   methods: {
     showDialog(url) {

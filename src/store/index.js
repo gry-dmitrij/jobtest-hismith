@@ -31,7 +31,7 @@ function sortNews(item1, item2) {
 }
 Vue.use(Vuex);
 
-// const PROXY = 'https://cors-anywhere.herokuapp.com/';
+// прокси для избежания ошибок CORS
 const PROXY = 'https://thingproxy.freeboard.io/fetch/';
 export default new Vuex.Store({
   state: {
@@ -41,6 +41,11 @@ export default new Vuex.Store({
   getters: {
     getNews: (state) => state.news,
     getPage: (state) => state.page,
+    /**
+     * Получает отдельную новость по guid новости
+     * @param state
+     * @returns {function(*): *}
+     */
     getNewById: (state) => (id) => state.news.find((item) => item.guid === id),
   },
   mutations: {
