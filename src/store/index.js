@@ -18,6 +18,10 @@ const parser = new Parser({
     ],
   },
 });
+
+function sortNews(item1, item2) {
+  return new Date(item2.isoDate).getTime() - new Date(item1.isoDate).getTime();
+}
 Vue.use(Vuex);
 
 // const PROXY = 'https://cors-anywhere.herokuapp.com/';
@@ -34,6 +38,7 @@ export default new Vuex.Store({
   },
   mutations: {
     setNews(state, payload) {
+      payload.sort(sortNews);
       state.news = [...payload];
     },
     setPage(state, number) {

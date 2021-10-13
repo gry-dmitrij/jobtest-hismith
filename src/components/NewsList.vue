@@ -94,31 +94,52 @@ export default {
       'getNews',
       'getPage',
     ]),
+    /**
+     * Отфильтрованный массив новостей
+     * @returns {[]}
+     */
     filterNews() {
       let news = this.getNews;
       const { dates } = this;
       let dateStart = new Date(dates[0]);
       let dateEnd = new Date(dates[1]);
+      // dateStart должна быть меньше dateEnd
       if (dateStart > dateEnd) {
         [dateStart, dateEnd] = [dateEnd, dateStart];
       }
-      if (dates[0]) {
-        news = news.filter((item) => new Date(item.isoDate) >= dateStart);
+      // фильтруем по дате, если обе даты заданы
+      if (dates[0] && dates[1]) {
+        news = news.filter((item) => new Date(item.isoDate) >= dateStart
+          && new Date(item.isoDate) <= dateEnd);
+      } else {
+        // фильтруем по начальной дате, если задана
+        if (dates[0]) {
+          news = news.filter((item) => new Date(item.isoDate) >= dateStart);
+        }
+        // фильтруем по конечной дате, если задана
+        if (dates[1]) {
+          news = news.filter((item) => new Date(item.isoDate) <= dateEnd);
+        }
       }
-      if (dates[1]) {
-        news = news.filter((item) => new Date(item.isoDate) <= dateEnd);
-      }
+      // фильтруем по словам
       if (this.filterWords.length) {
         news = news.filter((item) => new RegExp(this.filterWords.join('|'), 'i').test(item.title));
       }
       return news;
     },
+    /**
+     * возвращает новости на текущей странице
+     * @returns {*[]}
+     */
     news() {
       return this.filterNews.slice((this.page - 1) * 5, 5 * this.page);
     },
     paginationLength() {
       return Math.ceil(this.filterNews.length / 5);
     },
+    /**
+     * Текущая страница
+     */
     page: {
       get() {
         return this.getPage;
@@ -127,9 +148,18 @@ export default {
         this.setPage(value);
       },
     },
+    /**
+     * Диапазон дат в текстовом представлении
+     * @returns {string}
+     */
     datesString() {
       return `${this.dates[0] || ''} - ${this.dates[1] || ''}`;
     },
+    /**
+     * Слова для поиска,
+     * слово меньше 3-х букв отбрасывается
+     * @returns {string[]}
+     */
     filterWords() {
       return this.searchWords.split(' ').filter((item) => item.length > 2);
     },
