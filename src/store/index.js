@@ -4,7 +4,7 @@ import Parser from 'rss-parser';
 
 const parser = new Parser({
   headers: {
-    'Access-Control-Allow-Origin': 'http://localhost:8080/',
+    'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Credentials': 'true',
   },
   customFields: {
@@ -14,11 +14,14 @@ const parser = new Parser({
       ['rbc_news:date', 'date'],
       ['rbc_news:time', 'time'],
       ['rbc_news:full-text', 'fullText'],
+      ['rbc_news:newsDate_timestamp', 'timestamp'],
     ],
   },
 });
 Vue.use(Vuex);
 
+// const PROXY = 'https://cors-anywhere.herokuapp.com/';
+const PROXY = 'https://thingproxy.freeboard.io/fetch/';
 export default new Vuex.Store({
   state: {
     news: [],
@@ -39,7 +42,7 @@ export default new Vuex.Store({
   },
   actions: {
     async fetchNews({ commit }) {
-      const feed = await parser.parseURL('http://static.feed.rbc.ru/rbc/logical/footer/news.rss');
+      const feed = await parser.parseURL(`${PROXY}http://static.feed.rbc.ru/rbc/logical/footer/news.rss`);
       console.log(feed);
       commit('setNews', feed.items);
     },
