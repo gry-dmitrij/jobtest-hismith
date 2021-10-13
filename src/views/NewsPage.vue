@@ -59,6 +59,9 @@ export default {
   mounted() {
     const { id } = this.$route.params;
     this.news = this.getNewById(id);
+    if (!this.news) {
+      this.$router.push('/');
+    }
   },
   computed: {
     ...mapGetters([

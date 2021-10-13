@@ -8,6 +8,13 @@ const parser = new Parser({
     'Access-Control-Allow-Credentials': 'true',
   },
   customFields: {
+    /**
+     * Переименовывает поля:
+     * item: [
+     *   ['old_name', 'new_name'}
+     * ]
+     * keepArray сохраняет весь массив данных, без него прилетает только первое значение
+     */
     item: [
       ['rbc_news:image', 'images', { keepArray: true }],
       ['rbc_news:anons', 'preview'],
@@ -47,7 +54,9 @@ export default new Vuex.Store({
   },
   actions: {
     async fetchNews({ commit }) {
-      const feed = await parser.parseURL(`${PROXY}http://static.feed.rbc.ru/rbc/logical/footer/news.rss`);
+      const feed = await parser.parseURL(
+        `${PROXY}http://static.feed.rbc.ru/rbc/logical/footer/news.rss`,
+      );
       commit('setNews', feed.items);
     },
   },

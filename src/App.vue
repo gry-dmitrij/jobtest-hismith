@@ -4,9 +4,15 @@
       app
       color="primary"
       dark
-      class="d-flex justify-center"
+      class="d-flex"
     >
-      <h1>Лента новостей</h1>
+      <v-btn v-show="$route.path !== '/'"
+             icon
+             class="mr-auto"
+             @click="$router.push('/')">
+        <v-icon>mdi-arrow-left-thick</v-icon>
+      </v-btn>
+      <h1 class="mr-auto ml-auto">Лента новостей</h1>
     </v-app-bar>
     <v-main>
       <router-view/>
